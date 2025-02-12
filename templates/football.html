@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Premier League Match Predictor ⚽</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #1a2a6c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .stat-tip {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        button {
+            background: #1a2a6c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #2a3a7c;
+            transform: scale(1.02);
+        }
+        .prediction {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1a2a6c;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+        }
+        .home-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .home-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="football-icon">⚽</div>
+            <h1>Premier League Match Predictor</h1>
+            <p>Enter team statistics to predict the match outcome</p>
+        </div>
+        
+        <form method="POST" action="/predict_football">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Home Team Goal Difference</label>
+                    <input type="number" name="htgd" required step="0.1">
+                    <div class="stat-tip">Range: -50 to +50. Total goals scored minus goals conceded by home team</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Away Team Goal Difference</label>
+                    <input type="number" name="atgd" required step="0.1">
+                    <div class="stat-tip">Range: -50 to +50. Total goals scored minus goals conceded by away team</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Home Team Points</label>
+                    <input type="number" name="htp" required step="0.1">
+                    <div class="stat-tip">Range: 0-100. Current points in the league table</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Away Team Points</label>
+                    <input type="number" name="atp" required step="0.1">
+                    <div class="stat-tip">Range: 0-100. Current points in the league table</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Form Points Difference</label>
+                    <input type="number" name="diff_form_pts" required step="0.1">
+                    <div class="stat-tip">Range: -15 to +15. Difference in points from last 5 games (Home - Away)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Points Difference</label>
+                    <input type="number" name="diff_pts" required step="0.1">
+                    <div class="stat-tip">Range: -60 to +60. Overall points difference (Home - Away)</div>
+                </div>
+
+                <!-- Form History -->
+                {% for team in ['h', 'a'] %}
+                    {% for i in range(1, 6) %}
+                        <div class="form-group">
+                            <label>{{ team.upper() }}{{ i }} Result</label>
+                            <select name="{{ team }}{{ i }}" required>
+                                <option value="W">Win</option>
+                                <option value="D">Draw</option>
+                                <option value="L">Loss</option>
+                                <option value="M">Missing</option>
+                            </select>
+                            <div class="stat-tip">
+                                {% if i == 1 %}
+                                    Most recent match result
+                                {% elif i == 2 %}
+                                    2nd most recent match result
+                                {% elif i == 3 %}
+                                    3rd most recent match result
+                                {% elif i == 4 %}
+                                    4th most recent match result
+                                {% else %}
+                                    5th most recent match result
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            
+            <button type="submit">Predict Match Outcome 🎯</button>
+        </form>
+        
+        {% if prediction is not none %}
+        <div class="prediction">
+            <h2>⚽ Predicted Outcome ⚽</h2>
+            <span>{{ prediction }}</span>
+        </div>
+        {% endif %}
+        
+        <div style="text-align: center;">
+            <a href="/" class="home-link">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html> 

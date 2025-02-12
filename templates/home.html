@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sports Predictor 🏀⚽</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1a;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+        .split {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .split::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s;
+            z-index: 1;
+        }
+        .split:hover::before {
+            transform: scale(1.05);
+        }
+        .basketball-side::before {
+            background-image: url('/static/images/image-serves-as-tribute-to-legendary-basketball-player-michael-jordan-featuring-key-moments-players-his-346644259.jpg');
+            filter: brightness(0.7);
+        }
+        .football-side::before {
+            background-image: url('/static/images/Savinho-1.jpg');
+            filter: brightness(0.7);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.001);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        h2 {
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
+        }
+        p {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 8px rgba(0,0,0,0.5);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .basketball-btn {
+            background: rgba(255, 87, 51, 0.7);
+            color: white;
+        }
+        .football-btn {
+            background: rgba(26, 42, 108, 0.7);
+            color: white;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        .basketball-btn:hover {
+            background: rgba(255, 87, 51, 0.85);
+        }
+        .football-btn:hover {
+            background: rgba(26, 42, 108, 0.85);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="split basketball-side">
+            <div class="card">
+                <div class="icon">🏀</div>
+                <h2>NBA Points Predictor</h2>
+                <p>Predict a player's total points based on their season statistics</p>
+                <a href="/basketball" class="btn basketball-btn">Try it out</a>
+            </div>
+        </div>
+        
+        <div class="split football-side">
+            <div class="card">
+                <div class="icon">⚽</div>
+                <h2>Premier League Predictor</h2>
+                <p>Predict match outcomes based on team performance metrics</p>
+                <a href="/football" class="btn football-btn">Try it out</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
